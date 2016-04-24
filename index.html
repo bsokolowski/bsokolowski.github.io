@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tabliczka mnożenia</title>
+	<meta charset="UTF-8">
+</head>
+<style type="text/css">
+	body {
+		font-family: Helvetica;
+		text-align: center;
+		color: #222222;
+	}
+
+	#gameboard {
+		border: 5px solid #aaaaaa;
+		font-size: 50px;
+		font-weight: bold;
+		width: 600px;
+		height: 400px;
+		margin: 0 auto;
+		margin-top: 10px;
+		padding: 20px;
+	}
+
+	#equation {
+		margin: 50px auto;
+	}
+
+	#answer, #check {
+		font-size: 50px;
+	}
+
+	#answer_ok {
+		position: fixed;
+		background-color: green;
+		color: white;
+		height: 100%;
+		width: 100%;
+		padding-top: 100px;
+		top: 0;
+		font-size: 100px;
+	}
+
+	#answer_bad {
+		position: fixed;
+		background-color: red;
+		color: white;
+		height: 100%;
+		width: 100%;
+		padding-top: 100px;
+		top: 0;
+		font-size: 100px;
+	}
+
+	.number {
+		border: 1px dotted #bbbbbb;
+		background-color: #eeeeee;
+		min-width: 100px;
+	}
+
+	.ineq {
+		font-size: 70px;
+		padding:10px;
+	}
+</style>
+<body>
+<div id="gameboard">
+	<div class="question">ILE JEST</div>
+	<div id="equation">
+		<span class="ineq number" id="numberA">2</span>
+		<span class="ineq" id="timex">x</span>
+		<span class="ineq number" id="numberB">2</span>
+	</div>
+	<div id="answer_box">
+		<input size="2" min="0" max="100" type="number" name="answer_field" id="answer" onkeypress="return checkEnter(event)" />
+		<button id="check" onclick="check()">Sprawdź</button>
+	</div>
+</div>
+
+
+<div id="answer_ok">
+	Dobrze!<br />
+	<button id="dismiss_ok" style="font-size:30px;" onclick="dismiss()">Zamknij</button>
+</div>
+
+<div id="answer_bad">
+	Źle!<br />
+	<span id="info"></span><br />
+	<button id="dismiss_bad" style="font-size:30px;" onclick="dismiss()">Zamknij</button>
+</div>
+
+
+</body>
+<script type="text/javascript">
+	var a, b;
+
+	function setRandomNumbers() {
+		a = Math.floor((Math.random() * 10) + 1);
+		b = Math.floor((Math.random() * 10) + 1);
+		document.getElementById("numberA").innerHTML = a;
+		document.getElementById("numberB").innerHTML = b;
+		document.getElementById("answer").value = "";
+		document.getElementById("answer").focus();
+	}
+
+	function check() {
+		var answer = document.getElementById("answer").value;
+		if (answer == "")
+			return;
+		if (answer == (a*b)) {
+			document.getElementById("answer_ok").style.display = 'block';
+			document.getElementById("dismiss_ok").focus();
+		} else {
+			document.getElementById("answer_bad").style.display = 'block';
+			document.getElementById("dismiss_bad").focus();
+			document.getElementById("info").innerHTML = "" + a + " x " + b + " = " + a * b;
+			// alert("ŹLE! " + a + " x " + b + " = " + a * b);
+		}
+	}
+
+	function checkEnter(e) {
+		if (e.keyCode == 13) {
+	        check();
+	        return false;
+	    }
+	}
+
+	function dismiss() {
+		document.getElementById("answer_ok").style.display = 'none';
+		document.getElementById("answer_bad").style.display = 'none';
+		setRandomNumbers();
+	}
+
+	setRandomNumbers();
+	document.getElementById("answer_ok").style.display = 'none';
+	document.getElementById("answer_bad").style.display = 'none';
+
+
+</script>
+</html>
